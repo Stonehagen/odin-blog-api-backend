@@ -1,6 +1,9 @@
-import express from 'express';
-import mongoose from 'mongoose';
-import 'dotenv/config';
+const express = require('express');
+const mongoose = require('mongoose');
+require('dotenv/config');
+
+const models = require('./models');
+const routes = require('./routes');
 
 // eslint-disable-next-line operator-linebreak
 const mongoDB = process.env.MONGODB_URI;
@@ -11,9 +14,13 @@ db.on('error', console.error.bind(console, 'mongo connection error'));
 
 const app = express();
 
-app.get('/', (req, res) => {
-  res.json({ message: 'Hello from App' });
-});
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.use('/session', routes.session);
+app.use('/user', routes.user);
+app.use('/post', routes.post);
+app.use('/comment', routes.comment);
 
 // eslint-disable-next-line arrow-body-style
 app.listen(process.env.PORT, () => {
