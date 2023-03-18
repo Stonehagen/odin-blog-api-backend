@@ -1,9 +1,9 @@
-const UserSchema = require('./user');
-const PostSchema = require('./post');
-const CommentSchema = require('./comment');
+const User = require('./user');
+const Post = require('./post');
+const Comment = require('./comment');
 
 module.exports = {
-  UserSchema,
-  PostSchema,
-  CommentSchema,
+  User,
+  Post,
+  Comment,
 };

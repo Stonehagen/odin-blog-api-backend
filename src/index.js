@@ -2,7 +2,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 require('dotenv/config');
 
-const models = require('./models');
 const routes = require('./routes');
 
 // eslint-disable-next-line operator-linebreak
