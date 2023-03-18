@@ -1,10 +1,8 @@
 const { Router } = require('express');
+const postController = require('../controllers/postController');
 
 const router = Router();
 
-// eslint-disable-next-line arrow-body-style
-router.get('/', (req, res) => {
-  return res.json({ message: 'List with all Posts' });
-});
+router.get('/', postController.index);
 
 module.exports = router;

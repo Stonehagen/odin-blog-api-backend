@@ -1,10 +1,8 @@
 const { Router } = require('express');
+const commentController = require('../controllers/commentController');
 
 const router = Router();
 
-// eslint-disable-next-line arrow-body-style
-router.get('/', (req, res) => {
-  return res.json({ message: 'List with all Comments' });
-});
+router.get('/', commentController.index);
 
 module.exports = router;

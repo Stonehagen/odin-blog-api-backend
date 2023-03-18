@@ -1,10 +1,8 @@
 const { Router } = require('express');
+const userController = require('../controllers/userController');
 
 const router = Router();
 
-// eslint-disable-next-line arrow-body-style
-router.get('/', (req, res) => {
-  return res.json({ message: 'List with all Users' });
-});
+router.get('/', userController.index);
 
 module.exports = router;
