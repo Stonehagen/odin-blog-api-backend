@@ -1,4 +1,5 @@
 const { body, validationResult } = require('express-validator');
+const mongoose = require('mongoose');
 
 const { Post } = require('../models');
 
@@ -41,6 +42,30 @@ exports.getPost = (req, res, next) => {
         return res.status(400).json({ message: 'Post not found' });
       }
       return res.status(200).json({ post });
+    })
+    .catch((err) => next(err));
+};
+
+exports.deletePost = (req, res, next) => {
+  Post.findById(req.params.postId)
+    .exec()
+    .then((post) => {
+      if (!post) {
+        return res.status(400).json({ message: 'diddnt found post' });
+      }
+      const userId = new mongoose.mongo.ObjectId(req.user.id);
+      if (post.author.toString() !== userId.toString()) {
+        return res
+          .status(400)
+          .json({ message: 'not author of the post' });
+      }
+      return Post.findByIdAndRemove(req.params.postId);
+    })
+    .then((deletedPost) => {
+      if (!deletedPost) {
+        return res.status(400).json({ message: 'cant delete post' });
+      }
+      return res.status(204).json({ message: 'delete post successful' });
     })
     .catch((err) => next(err));
 };

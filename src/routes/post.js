@@ -14,6 +14,12 @@ router.post(
   postController.createPostPost,
 );
 
-module.exports = router;
-
 router.get('/:postId', postController.getPost);
+
+router.delete(
+  '/:postId',
+  passport.authenticate('jwt', { session: false }),
+  postController.deletePost,
+);
+
+module.exports = router;
