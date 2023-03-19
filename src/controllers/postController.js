@@ -15,8 +15,12 @@ exports.index = (req, res, next) => {
     .catch((err) => next(err));
 };
 
-exports.indexAll = (req, res, next) => {
-  Post.find()
+exports.indexDraft = (req, res, next) => {
+  Post.find({
+    published: false,
+    // eslint-disable-next-line no-underscore-dangle
+    author: new mongoose.mongo.ObjectId(req.user._id),
+  })
     .exec()
     .then((posts) => {
       if (!posts) {
