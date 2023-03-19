@@ -4,9 +4,26 @@ const mongoose = require('mongoose');
 const { Post } = require('../models');
 
 exports.index = (req, res, next) => {
-  Post.find({})
+  Post.find({ published: true })
     .exec()
-    .then((posts) => res.status(200).json({ posts }))
+    .then((posts) => {
+      if (!posts) {
+        return res.status(404).json({ message: 'no posts found' });
+      }
+      return res.status(200).json({ posts });
+    })
+    .catch((err) => next(err));
+};
+
+exports.indexAll = (req, res, next) => {
+  Post.find()
+    .exec()
+    .then((posts) => {
+      if (!posts) {
+        return res.status(404).json({ message: 'no posts found' });
+      }
+      return res.status(200).json({ posts });
+    })
     .catch((err) => next(err));
 };
 
@@ -24,6 +41,7 @@ exports.createPostPost = [
     const post = new Post({
       title: req.body.title,
       text: req.body.text,
+      published: req.body.published,
       author: req.user.id,
     });
 
@@ -83,6 +101,7 @@ exports.editPost = [
       _id: new mongoose.mongo.ObjectId(req.params.postId),
       title: req.body.title,
       text: req.body.text,
+      published: req.body.published,
       author: req.user.id,
     });
 
@@ -102,9 +121,7 @@ exports.editPost = [
         if (!updatedPost) {
           return res.status(400).json({ message: 'cant update post' });
         }
-        return res
-          .status(201)
-          .json({ message: 'update post successful' });
+        return res.status(201).json({ message: 'update post successful' });
       })
       .catch((err) => next(err));
   },

@@ -8,6 +8,12 @@ const router = Router();
 
 router.get('/', postController.index);
 
+router.get(
+  '/all',
+  passport.authenticate('jwt', { session: false }),
+  postController.indexAll,
+);
+
 router.post(
   '/new',
   passport.authenticate('jwt', { session: false }),
