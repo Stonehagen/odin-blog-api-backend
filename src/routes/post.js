@@ -6,10 +6,12 @@ require('../passport');
 
 const router = Router();
 
-router.get(
-  '/',
+router.get('/', postController.index);
+
+router.post(
+  '/new',
   passport.authenticate('jwt', { session: false }),
-  postController.index,
+  postController.createPostPost,
 );
 
 module.exports = router;
