@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 require('dotenv/config');
 
 const routes = require('./routes');
+require('./passport');
 
 // eslint-disable-next-line operator-linebreak
 const mongoDB = process.env.MONGODB_URI;

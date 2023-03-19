@@ -1,3 +1,1 @@
-exports.index = (req, res) => {
-  return res.json({ message: 'Info about your Session' });
-};
+exports.index = (req, res) => res.json({ message: 'Info about your Session' });
