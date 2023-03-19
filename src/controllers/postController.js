@@ -55,9 +55,7 @@ exports.deletePost = (req, res, next) => {
       }
       const userId = new mongoose.mongo.ObjectId(req.user.id);
       if (post.author.toString() !== userId.toString()) {
-        return res
-          .status(400)
-          .json({ message: 'not author of the post' });
+        return res.status(400).json({ message: 'not author of the post' });
       }
       return Post.findByIdAndRemove(req.params.postId);
     })
@@ -69,3 +67,45 @@ exports.deletePost = (req, res, next) => {
     })
     .catch((err) => next(err));
 };
+
+exports.editPost = [
+  body('title', 'Post title required').trim().isLength({ min: 3 }).escape(),
+  body('text', 'post text required').trim().isLength({ min: 20 }).escape(),
+  // eslint-disable-next-line consistent-return
+  (req, res, next) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const post = new Post({
+      _id: new mongoose.mongo.ObjectId(req.params.postId),
+      title: req.body.title,
+      text: req.body.text,
+      author: req.user.id,
+    });
+
+    Post.findById(req.params.postId)
+      .exec()
+      .then((foundPost) => {
+        if (!foundPost) {
+          return res.status(400).json({ message: 'diddnt found post' });
+        }
+        const userId = new mongoose.mongo.ObjectId(req.user.id);
+        if (post.author.toString() !== userId.toString()) {
+          return res.status(400).json({ message: 'not author of the post' });
+        }
+        return Post.findByIdAndUpdate(req.params.postId, post);
+      })
+      .then((updatedPost) => {
+        if (!updatedPost) {
+          return res.status(400).json({ message: 'cant update post' });
+        }
+        return res
+          .status(201)
+          .json({ message: 'update post successful' });
+      })
+      .catch((err) => next(err));
+  },
+];
