@@ -1,7 +1,6 @@
 const { body, validationResult } = require('express-validator');
-const mongoose = require('mongoose');
 
-const { Post, Comment } = require('../models');
+const { Post } = require('../models');
 
 exports.index = (req, res, next) => {
   Post.find({})
@@ -39,7 +38,7 @@ exports.getPost = (req, res, next) => {
     .exec()
     .then((post) => {
       if (!post) {
-        return res.status(404).json({ message: 'Post not found' });
+        return res.status(400).json({ message: 'Post not found' });
       }
       return res.status(200).json({ post });
     })
