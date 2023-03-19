@@ -5,8 +5,6 @@ require('dotenv/config');
 
 const { User } = require('../models');
 
-exports.index = (req, res) => res.json({ message: 'List with all Users' });
-
 exports.createUserPost = [
   body('name', 'User name required').trim().isLength({ min: 3 }).escape(),
   body('email', 'User email required')
