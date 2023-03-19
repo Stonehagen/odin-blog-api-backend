@@ -2,7 +2,7 @@ const { Router } = require('express');
 const passport = require('passport');
 const postController = require('../controllers/postController');
 
-require('../passport');
+require('../config/passport');
 
 const router = Router();
 
