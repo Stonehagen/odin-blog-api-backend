@@ -101,11 +101,13 @@ exports.logInUserPost = [
             ],
           });
         }
-
+        const daysToExpire = 60;
         const token = jwt.sign(user.toJSON(), process.env.JWT_SECRET, {
-          expiresIn: '60d',
+          expiresIn: `${daysToExpire}d`,
         });
-        return res.json({ user, token });
+        const expireDate = new Date();
+        expireDate.setDate(expireDate.getDate() + daysToExpire);
+        return res.json({ user, token, expireIn: expireDate.toUTCString() });
       });
     })(req, res);
   },
