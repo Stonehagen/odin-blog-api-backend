@@ -105,9 +105,7 @@ exports.logInUserPost = [
         const token = jwt.sign(user.toJSON(), process.env.JWT_SECRET, {
           expiresIn: `${daysToExpire}d`,
         });
-        const expireDate = new Date();
-        expireDate.setDate(expireDate.getDate() + daysToExpire);
-        return res.json({ user, token, expireIn: expireDate.toUTCString() });
+        return res.json({ user, token});
       });
     })(req, res);
   },
