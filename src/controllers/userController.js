@@ -102,7 +102,9 @@ exports.logInUserPost = [
           });
         }
 
-        const token = jwt.sign(user.toJSON(), process.env.JWT_SECRET);
+        const token = jwt.sign(user.toJSON(), process.env.JWT_SECRET, {
+          expiresIn: '60d',
+        });
         return res.json({ user, token });
       });
     })(req, res);
