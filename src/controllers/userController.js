@@ -39,7 +39,7 @@ exports.createUserPost = [
             error: [
               {
                 value: found.email,
-                msg: 'Email already in use. Log in or use different email.',
+                msg: 'Email already in use. Log in or use a different email.',
                 param: 'email',
                 location: 'body',
               },
