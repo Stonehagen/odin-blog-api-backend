@@ -23,10 +23,7 @@ passport.use(
               message: 'Incorrect email or password.',
             });
           }
-          return user;
-        })
-        .then((user) => {
-          user.isValidPassword(password).then((isValid) => {
+          return user.isValidPassword(password).then((isValid) => {
             if (isValid) {
               return done(null, user, { message: 'Logged In Successfully' });
             }

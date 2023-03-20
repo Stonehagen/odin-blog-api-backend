@@ -60,26 +60,46 @@ exports.createUserPost = [
 ];
 
 exports.logInUserPost = [
-  body('email', 'User email required').trim().escape(),
-  body('password', 'User password required').trim().escape(),
+  body('email')
+    .trim()
+    .isEmail()
+    .withMessage('Please provide valid Email to log in.')
+    .escape(),
+  body('password', 'Please provide password to log in.').trim().escape(),
   // eslint-disable-next-line consistent-return
   (req, res) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-      return res.status(401).json({ errors: errors.array() });
+      return res.status(401).json({ error: errors.array() });
     }
 
     // eslint-disable-next-line consistent-return
     passport.authenticate('login', { session: false }, (err, user) => {
       if (err || !user) {
         return res.status(401).json({
-          error: 'email or password invalid',
+          error: [
+            {
+              value: '',
+              msg: "Sorry, we couldn't verify your login credentials. Please check your email and password and try again.",
+              param: '',
+              location: 'body',
+            },
+          ],
         });
       }
       req.login(user, { session: false }, (error) => {
         if (error) {
-          res.send(error);
+          res.status(400).json({
+            error: [
+              {
+                value: '',
+                msg: 'Something went wrong. Please try again later!',
+                param: '',
+                location: '',
+              },
+            ],
+          });
         }
 
         const token = jwt.sign(user.toJSON(), process.env.JWT_SECRET);
