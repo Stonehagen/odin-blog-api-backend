@@ -5,6 +5,7 @@ const { Post } = require('../models');
 
 exports.index = (req, res, next) => {
   Post.find({ published: true })
+    .sort({ timestamp: 1 })
     .exec()
     .then((posts) => {
       if (!posts) {
