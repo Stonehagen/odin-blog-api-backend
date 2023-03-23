@@ -20,7 +20,7 @@ router.post(
   postController.createPostPost,
 );
 
-router.get('/latest', postController.getLatestPost);
+router.get('/latest/:limit', postController.getLatestPosts);
 
 router.get('/:postId', postController.getPost);
 

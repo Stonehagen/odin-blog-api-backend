@@ -57,16 +57,16 @@ exports.createPostPost = [
   },
 ];
 
-exports.getLatestPost = (req, res, next) => {
+exports.getLatestPosts = (req, res, next) => {
   Post.find({ published: true })
     .sort({ timestamp: -1 })
-    .limit(1)
+    .limit(req.params.limit)
     .exec()
-    .then((post) => {
-      if (!post) {
+    .then((posts) => {
+      if (!posts) {
         return res.status(400).json({ message: 'Post not found' });
       }
-      return res.status(200).json({ post });
+      return res.status(200).json({ posts });
     })
     .catch((err) => next(err));
 };
