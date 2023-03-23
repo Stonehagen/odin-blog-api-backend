@@ -57,6 +57,20 @@ exports.createPostPost = [
   },
 ];
 
+exports.getLatestPost = (req, res, next) => {
+  Post.find({ published: true })
+    .sort({ timestamp: -1 })
+    .limit(1)
+    .exec()
+    .then((post) => {
+      if (!post) {
+        return res.status(400).json({ message: 'Post not found' });
+      }
+      return res.status(200).json({ post });
+    })
+    .catch((err) => next(err));
+};
+
 exports.getPost = (req, res, next) => {
   Post.findById(req.params.postId)
     .exec()

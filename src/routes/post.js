@@ -20,6 +20,8 @@ router.post(
   postController.createPostPost,
 );
 
+router.get('/latest', postController.getLatestPost);
+
 router.get('/:postId', postController.getPost);
 
 router.put(
