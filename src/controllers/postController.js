@@ -60,7 +60,7 @@ exports.createPostPost = [
 exports.getLatestPosts = (req, res, next) => {
   Post.find({ published: true })
     .sort({ timestamp: -1 })
-    .limit(req.params.limit)
+    .limit(+req.params.limit)
     .exec()
     .then((posts) => {
       if (!posts) {
