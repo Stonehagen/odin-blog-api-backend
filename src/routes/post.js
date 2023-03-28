@@ -9,9 +9,9 @@ const router = Router();
 router.get('/', postController.index);
 
 router.get(
-  '/draft',
+  '/all',
   passport.authenticate('jwt', { session: false }),
-  postController.indexDraft,
+  postController.indexAll,
 );
 
 router.post(
