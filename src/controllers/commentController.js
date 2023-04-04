@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const { Comment, Post } = require('../models');
 
 exports.createCommentPost = [
-  body('text', 'Comment text required').trim().isLength({ min: 10 }).escape(),
+  body('text', 'Comments with less than 10 letters are not allowed').trim().isLength({ min: 10 }).escape(),
   // eslint-disable-next-line consistent-return
   (req, res, next) => {
     const errors = validationResult(req);
