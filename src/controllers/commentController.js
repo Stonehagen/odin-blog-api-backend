@@ -20,7 +20,7 @@ exports.createCommentPost = [
 
     comment
       .save()
-      .then((newPost) => res.status(201).json({ newPost }))
+      .then((newComment) => res.status(201).json({ comment: newComment }))
       .catch((err) => next(err));
   },
 ];
